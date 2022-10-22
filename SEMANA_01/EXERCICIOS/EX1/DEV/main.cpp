@@ -4,8 +4,39 @@
 // 1 -  Faça uma função que recebe uma certa medida e ajusta ela percentualmente 
 // entre dois valores mínimo e máximo e retorna esse valor
 
+int converteSensor(int vter, int vmin, int vmax)
+{
+    int porcento;
+	porcento = ((vter - vmin) * 100)/(vmax - vmin);
+
+	// int p_comp = vmax - vter;
+    // int s_comp = vter - vmin;
+
+	// t1 = vmax - vmin;
+	// t2 = vter - vmin;
+    // if (p_comp > s_comp)
+    // {   printf("O terceiro valor %d esta mais proximo do valor minimo %d, em %d porcento", vter, vmin, porcento);
+    // }else if (p_comp < s_comp){
+    //     printf("O terceiro valor %d esta mais proximo do valor maximo %d, em %d porcento", vter, vmax, porcento);
+    // }else if (p_comp == s_comp){
+    //     printf("O valor esta no meio, representando 50 porcento");
+    // }
+	printf("%d", porcento);
+	return porcento;
+}
+
 // 2 - Faça uma função que simule a leitura de um sensor lendo o 
 // valor do teclado ao final a função retorna este valor
+
+
+int leituraSensor(void) 
+{
+    int valor;
+    printf("Sensor: ");
+    scanf("%d", &valor);
+    // printf("Sensor = " "%d", valor);
+    return valor;   
+}
 
 // 3 - Faça uma função que armazena uma medida inteira qualquer 
 // em um vetor fornecido. Note que como C não possui vetores 
@@ -14,6 +45,12 @@
 // Evite também que, por acidente, um valor seja escrito em 
 // uma área de memória fora do vetor
 
+int insere(int novoValor, int index, int *v)
+{
+	int *array =v;
+	array[index] = novoValor;
+	return index + 1;
+}
 
 
 // 4 - Faça uma função que recebe um vetor com 4 posições que contém 
@@ -22,11 +59,47 @@
 // de maior distância ("Direita", "Esquerda", "Frente", "Tras") e a 
 // segunda é esta maior distância.
 
+char* direcaoMenorCaminho(int posicao[])
+{	
+	char* direcao[4] = {"Direita","Esquerda", "Frente", "Tras"};
+	int index = 0;
+	int maior_v = 0;
 
+	for (int i=0; i < 4; i++){
+		if (posicao[i] > maior_v){
+			maior_v = posicao[i];
+			index = i;
+		}
+	}
+// if (direcao[index] == "Direita"){
+// 	return direcao[index];
+// }
+// if (direcao[index] == "Esquerda"){
+// 	return direcao[index];
+// }
+// if (direcao[index] == "Frente"){
+// 	return direcao[index];
+// }
+// if (direcao[index] == "Tras"){
+// 	return direcao[index];
+// }
+    return direcao[index];
+}
 
 
 // 5 - Faça uma função que pergunta ao usuário se ele deseja continuar o mapeamento e 
 // retorna verdadeiro ou falso
+
+bool leComando()
+{
+    char res;
+    printf("Do you want continue?: (y/n) \n");
+    scanf("%c", &res);
+    if(tolower(res) == 'n'){
+		return false;
+	}
+    return true;
+}
 
 
 // 6 - A função abaixo (que está incompleta) vai "dirigindo" virtualmente um robô 
@@ -42,20 +115,17 @@
 // nos ítens anteriores e em um looping contínuo até que um pedido de parada seja 
 // enviado pelo usuário. 
 //
-//      Complete a função com a chamada das funções já criadas
+    //  Complete a função com a chamada das funções já criadas
+
 int dirige(int *v,int maxv){
 	int maxVetor = maxv;
 	int *vetorMov = v;
 	int posAtualVetor = 0;
 	int dirigindo = 1;		
 	while(dirigindo){		
-		int medida = /// .. Chame a função de de leitura da medida para a "Direita"
+		int medida = leituraSensor();
 		medida = converteSensor(medida,0,830);
-		posAtualVetor = // Chame a função para armazenar a medida no vetor
-        ///////////////////////////////////////////////////////////////////////////		
-		// Repita as chamadas acima para a "Esquerda", "Frente", "Tras"
-		// ................
-		///////////////////////////////////////////////////////////////////////////
+		posAtualVetor = insere(medida, posAtualVetor, vetorMov);
 		dirigindo = leComando();		
 	}
 	return posAtualVetor;
@@ -70,7 +140,9 @@ void percorre(int *v,int tamPercorrido){
 	int maiorDir = 0;
 	
 	for(int i = 0; i< tamPercorrido; i+=4){
-		char *direcao = direcaoMenorCaminho(&(vetorMov[i]),&maiorDir);
+
+		// char *direcao = direcaoMenorCaminho(&(vetorMov[i]),&maiorDir);
+		char *direcao = direcaoMenorCaminho(&(vetorMov[i]));
 		printf("Movimentando para %s distancia = %i\n",direcao,maiorDir);
 	}
 }
