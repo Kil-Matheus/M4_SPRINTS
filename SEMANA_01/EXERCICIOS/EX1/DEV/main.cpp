@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
 // 1 -  Faça uma função que recebe uma certa medida e ajusta ela percentualmente 
 // entre dois valores mínimo e máximo e retorna esse valor
 
@@ -32,7 +33,7 @@ int converteSensor(int vter, int vmin, int vmax)
 int leituraSensor(void) 
 {
     int valor;
-    printf("Sensor: ");
+    cout << "Sensor: ";
     scanf("%d", &valor);
     // printf("Sensor = " "%d", valor);
     return valor;   
@@ -59,15 +60,14 @@ int insere(int novoValor, int index, int *v)
 // de maior distância ("Direita", "Esquerda", "Frente", "Tras") e a 
 // segunda é esta maior distância.
 
-char* direcaoMenorCaminho(int posicao[])
+char* direcaoMenorCaminho(int posicao[], int *maiorDirecao)
 {	
 	char* direcao[4] = {"Direita","Esquerda", "Frente", "Tras"};
 	int index = 0;
-	int maior_v = 0;
 
 	for (int i=0; i < 4; i++){
-		if (posicao[i] > maior_v){
-			maior_v = posicao[i];
+		if (posicao[i] > *maiorDirecao){
+			*maiorDirecao = posicao[i];
 			index = i;
 		}
 	}
@@ -83,7 +83,7 @@ char* direcaoMenorCaminho(int posicao[])
 // if (direcao[index] == "Tras"){
 // 	return direcao[index];
 // }
-    return direcao[index];
+    return (direcao[index]);
 }
 
 
@@ -93,7 +93,7 @@ char* direcaoMenorCaminho(int posicao[])
 bool leComando()
 {
     char res;
-    printf("Do you want continue?: (y/n) \n");
+    cout << "Do you want continue?: (y/n) \n";
     scanf("%c", &res);
     if(tolower(res) == 'n'){
 		return false;
@@ -125,6 +125,9 @@ int dirige(int *v,int maxv){
 	while(dirigindo){		
 		int medida = leituraSensor();
 		medida = converteSensor(medida,0,830);
+		medida = converteSensor(medida,1,830);
+		medida = converteSensor(medida,2,830);
+		medida = converteSensor(medida,3,830);
 		posAtualVetor = insere(medida, posAtualVetor, vetorMov);
 		dirigindo = leComando();		
 	}
@@ -141,8 +144,7 @@ void percorre(int *v,int tamPercorrido){
 	
 	for(int i = 0; i< tamPercorrido; i+=4){
 
-		// char *direcao = direcaoMenorCaminho(&(vetorMov[i]),&maiorDir);
-		char *direcao = direcaoMenorCaminho(&(vetorMov[i]));
+		char *direcao = direcaoMenorCaminho(&(vetorMov[i]),&maiorDir);
 		printf("Movimentando para %s distancia = %i\n",direcao,maiorDir);
 	}
 }
