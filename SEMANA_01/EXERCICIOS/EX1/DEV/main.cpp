@@ -5,7 +5,7 @@ using namespace std;
 // 1 -  Faça uma função que recebe uma certa medida e ajusta ela percentualmente 
 // entre dois valores mínimo e máximo e retorna esse valor
 
-int converteSensor(int vter, int vmin, int vmax)
+int numPorcento(int vter, int vmin, int vmax)
 {
     int porcento;
 	porcento = ((vter - vmin) * 100)/(vmax - vmin);
@@ -30,10 +30,10 @@ int converteSensor(int vter, int vmin, int vmax)
 // valor do teclado ao final a função retorna este valor
 
 
-int leituraSensor(void) 
+int converteSensor(int valor, int vmin, int vmax) 
 {
-    int valor;
-    cout << "Sensor: ";
+    // int valor;
+    cout << "Digite um valor entre : " << vmin << " e " << vmax << "\n";
     scanf("%d", &valor);
     // printf("Sensor = " "%d", valor);
     return valor;   
@@ -83,22 +83,22 @@ char* direcaoMenorCaminho(int posicao[], int *maiorDirecao)
 // if (direcao[index] == "Tras"){
 // 	return direcao[index];
 // }
-    return (direcao[index]);
+    return direcao[index];
 }
 
 
 // 5 - Faça uma função que pergunta ao usuário se ele deseja continuar o mapeamento e 
 // retorna verdadeiro ou falso
 
-bool leComando()
+int leComando()
 {
-    char res;
+    int res;
     cout << "Do you want continue?: (y/n) \n";
     scanf("%c", &res);
     if(tolower(res) == 'n'){
-		return false;
+		return res = 0;
 	}
-    return true;
+    return res = 1;
 }
 
 
@@ -123,10 +123,13 @@ int dirige(int *v,int maxv){
 	int posAtualVetor = 0;
 	int dirigindo = 1;		
 	while(dirigindo){		
-		int medida = leituraSensor();
+		int medida = insere(medida, posAtualVetor, vetorMov);
 		medida = converteSensor(medida,0,830);
+		posAtualVetor = insere(medida, posAtualVetor, vetorMov);
 		medida = converteSensor(medida,1,830);
+		posAtualVetor = insere(medida, posAtualVetor, vetorMov);
 		medida = converteSensor(medida,2,830);
+		posAtualVetor = insere(medida, posAtualVetor, vetorMov);
 		medida = converteSensor(medida,3,830);
 		posAtualVetor = insere(medida, posAtualVetor, vetorMov);
 		dirigindo = leComando();		
